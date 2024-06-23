@@ -2,19 +2,22 @@ package tests;
 
 import com.codeborne.selenide.Selenide;
 import io.qameta.allure.Description;
+import org.hamcrest.CoreMatchers;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.AfterAll;
+import pages.ItemPage;
+import pages.ItemWrapper;
 import pages.LoginPage;
 import pages.ShowcasePage;
 import utils.BaseTest;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
 
-public class TestSuccessLogin extends BaseTest {
+public class TestOpenItemPage extends BaseTest {
     private static final String LOGIN = "standard_user";
     private static final String PASSWORD = "secret_sauce";
-    private static final String EXPECTED_PAGE_TITLE = "Products";
 
     @BeforeAll
     public static void setUp() {
@@ -22,14 +25,22 @@ public class TestSuccessLogin extends BaseTest {
     }
 
     @Test
-    @Description("Тест проверяет успешную авторизацию")
-    public void testSuccessLogin() {
+    @Description("Тест проверяет открытие картотчки товара")
+    public void testOpenItemPage() {
         ShowcasePage showcasePage = new LoginPage()
                 .fillUsername(LOGIN)
                 .fillPassword(PASSWORD)
                 .clickLogin()
                 .andSuccessLogin();
-        assertEquals(EXPECTED_PAGE_TITLE, showcasePage.getPageTitle(), "Некорретный заголовок ожидаемой страницы");
+
+        assertThat("Список товаров пусты", showcasePage.getItems(), not(empty()));
+
+        ItemWrapper item = showcasePage.getItems()
+                .get(0);
+        String expectedItemName = item.getName();
+
+        ItemPage itemPage = item.openItem();
+        assertThat(itemPage.getItemTitle(), is(expectedItemName));
     }
 
     @AfterAll
