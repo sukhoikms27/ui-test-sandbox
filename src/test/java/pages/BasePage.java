@@ -2,7 +2,9 @@ package pages;
 
 abstract public class BasePage {
 
-    abstract <T> T openPage();
+    public BasePage() {
+        verifyPage();
+    }
 
     abstract void verifyPage();
 }

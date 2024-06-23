@@ -13,12 +13,6 @@ public class LoginPage extends BasePage {
     private static final By LOGIN_BUTTON = By.xpath(".//*[@id='login-button']");
 
     @Override
-    public LoginPage openPage() {
-        Selenide.open("https://www.saucedemo.com/");
-        return this;
-    }
-
-    @Override
     void verifyPage() {
         $(HEADER).shouldBe(visible);
         $(USERNAME_INPUT).shouldBe(visible);
