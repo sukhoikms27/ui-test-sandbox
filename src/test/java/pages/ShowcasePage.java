@@ -13,7 +13,7 @@ import static com.codeborne.selenide.Selenide.$$;
 public class ShowcasePage extends BasePage {
     private static final By TITLE = By.xpath(".//*[@class='title']");
     private static final By ITEM = By.xpath(".//*[@data-test='inventory-item']");
-    private static final By SORT = By.xpath(".//*[@class='select_container']");
+    private static final By SORT = By.xpath(".//*[@class='product_sort_container']");
 
     @Step("Проверка загрузки страницы витрины")
     @Override
@@ -36,7 +36,7 @@ public class ShowcasePage extends BasePage {
 
     public ShowcasePage selectSortType(SortType type) {
         $(SORT).shouldBe(visible)
-                .selectOption(type.getValue());
+                .selectOptionByValue(type.getValue());
         return this;
     }
 }

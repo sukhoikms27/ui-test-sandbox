@@ -6,10 +6,7 @@ import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import pages.ItemPage;
-import pages.ItemWrapper;
-import pages.LoginPage;
-import pages.ShowcasePage;
+import pages.*;
 import utils.BaseTest;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -34,6 +31,8 @@ public class TestOpenItemPage extends BaseTest {
                 .andSuccessLogin();
 
         assertThat("Список товаров пусты", showcasePage.getItems(), not(empty()));
+
+        showcasePage.selectSortType(SortType.PRICE_LOW_TO_HIGH);
 
         ItemWrapper item = showcasePage.getItems()
                 .get(0);
